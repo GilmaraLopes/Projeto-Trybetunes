@@ -4,7 +4,7 @@ import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
 export default class Search extends Component {
   state = {
-    artist: '',
+    nome: '',
     isButtonDisable: true,
 
   };
@@ -18,8 +18,8 @@ export default class Search extends Component {
   };
 
   requestAlbuns = async () => {
-    const { artist } = this.state;
-    const response = await searchAlbumsAPI(artist);
+    const { nome } = this.state;
+    const response = await searchAlbumsAPI(nome);
     console.log(response);
   };
 
@@ -33,7 +33,7 @@ export default class Search extends Component {
             Nome do artista ou banda:
             <input
               type="text "
-              name="artist"
+              name="nome"
               data-testid="search-artist-input"
               onChange={ this.handleChange }
             />
