@@ -8,7 +8,7 @@ export default class Header extends Component {
         <p data-testid="header-user-name"> </p>
         <BrowserRouter>
           <Link data-testid="link-to-search" to="/search">search</Link>
-          <Link data-testid="link-to-favorites" to="/favorites">favorites</Link>
+          <Link data-testid="link-to-favorites" to="/favorites">favoritas</Link>
           <Link data-testid="link-to-profile" to="/profile">profile</Link>
         </BrowserRouter>
       </header>
