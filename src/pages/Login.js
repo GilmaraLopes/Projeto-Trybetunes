@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-// import userAPI from './services/userAPI';
+// import { createUser } from './services/userAPI';
 
 export default class Login extends Component {
   state = {
@@ -38,7 +38,7 @@ export default class Login extends Component {
           />
           <button
             type="button"
-            onClick={ this.createUser }
+            onClick={ this.enableBtn }
             data-testid="login-submit-button"
             disabled={ isButtonDisable }
           >
