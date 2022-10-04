@@ -1,28 +1,36 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-
-// import { createUser } from './services/userAPI';
+import Loading from './Loading';
+import { createUser } from '../services/userAPI';
 
 export default class Login extends Component {
   state = {
     nome: '',
     isButtonDisable: true,
+    loading: false,
   };
 
   enableBtn = () => {
     const { nome } = this.state;
-    const usuario = nome.length > 2;
-    this.setState({ isButtonDisable: !usuario });
+    const { history } = this.props;
+    this.setState({ loading: true }, async () => {
+      await createUser({ name: nome });
+      history.push('/search');
+    });
   };
 
   handleChange = ({ target }) => {
-    console.log(target);
     this.setState({
       [target.name]: target.value,
-    }, () => this.enableBtn());
+      isButtonDisable: (target.value.length <= 2),
+    });
   };
 
   render() {
-    const { nome, isButtonDisable } = this.state;
+    const { nome, isButtonDisable, loading } = this.state;
+    if (loading) {
+      return <Loading />;
+    }
     return (
 
       <form>
@@ -50,3 +58,9 @@ export default class Login extends Component {
     );
   }
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+};
