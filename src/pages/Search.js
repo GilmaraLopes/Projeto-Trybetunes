@@ -1,18 +1,26 @@
 import React, { Component } from 'react';
 import Header from '../components/Header';
+import searchAlbumsAPI from '../services/searchAlbumsAPI';
 
 export default class Search extends Component {
   state = {
-    // nome: '',
+    artist: '',
     isButtonDisable: true,
 
   };
 
   handleChange = ({ target }) => {
+    const { name, value } = target;
     this.setState({
-      [target.name]: target.value,
+      [name]: value,
       isButtonDisable: (target.value.length < 2),
     });
+  };
+
+  requestAlbuns = async () => {
+    const { artist } = this.state;
+    const response = await searchAlbumsAPI(artist);
+    console.log(response);
   };
 
   render() {
@@ -25,12 +33,13 @@ export default class Search extends Component {
             Nome do artista ou banda:
             <input
               type="text "
+              name="artist"
               data-testid="search-artist-input"
               onChange={ this.handleChange }
             />
             <button
               type="button"
-              // onClick={}
+              onClick={ this.requestAlbuns }
               data-testid="search-artist-button"
               disabled={ isButtonDisable }
             >
