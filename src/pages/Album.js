@@ -28,7 +28,7 @@ export default class Album extends Component {
 
   render() {
     const { albumList, loading } = this.state;
-    console.log(albumList);
+    // console.log(albumList);
     if (loading) {
       return <Loading />;
     }
