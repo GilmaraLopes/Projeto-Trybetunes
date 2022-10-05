@@ -1,45 +1,62 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import getMusics from '../services/musicsAPI';
+import MusicCard from '../components/MusicCard';
+import Loading from './Loading';
 
 export default class Album extends Component {
   state = {
-    id: '',
-    teste: '',
     albumList: [],
-    // mostraInfo: false,
-
+    loading: true,
   };
 
-  // handleChange = ({ target }) => {
-  //   const { name, value } = target;
-  //   this.setState({
-  //     [name]: value,
-  //     isButtonDisable: (value.length < 2),
-  //   });
-  // };
+  componentDidMount() {
+    this.requestMusics();
+  }
 
   requestMusics = async () => {
-    const { id } = this.state;
+    // console.log(this.props);
+    const { match: { params: { id } } } = this.props;
     const response = await getMusics(id);
-    console.log(response);
+    // console.log(response);
     this.setState({
-      teste: id,
       albumList: response,
-      id: '',
+      loading: false,
     });
   };
 
   render() {
+    const { albumList, loading } = this.state;
+    console.log(albumList);
+    if (loading) {
+      return <Loading />;
+    }
     return (
-      <div data-testid="page-album">
-        {/* { albumList.map((element) => (
-            <div key={ element.collectionId }>
-            <p data-testid="artist-name">Nome da banda/Artista</p>
-            <p data-testid="album-name">Nome do Album/Artista</p>
-       } */}
+      <>
         <Header />
-      </div>
+
+        <div data-testid="page-album">
+
+          {/* {JSON.stringify(albumList)} */}
+          <p data-testid="artist-name">{albumList[0].artistName}</p>
+          <p data-testid="album-name">{albumList[0].collectionName}</p>
+          { albumList.map((element, index) => (
+            <div key={ index }>
+
+              { index > 0 && <MusicCard { ...element } /> }
+            </div>
+          ))}
+        </div>
+      </>
     );
   }
 }
+
+Album.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+};
