@@ -1,13 +1,17 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Loading from '../pages/Loading';
-import { addSong } from '../services/favoriteSongsAPI';
+import { addSong, getFavoriteSongs } from '../services/favoriteSongsAPI';
 
 export default class MusicCard extends Component {
   state = {
     checked: false,
     loading: false,
   };
+
+  componentDidMount() {
+    this.salvaFavoritas();
+  }
 
   addFavoritas = async () => {
     this.setState({
@@ -18,6 +22,14 @@ export default class MusicCard extends Component {
       loading: false,
       checked: true,
     });
+  };
+
+  salvaFavoritas = async () => {
+    const favorite = await getFavoriteSongs();
+    const { trackId } = this.props;
+    const favoriteMusic = favorite.some((musica) => musica.trackId === trackId);
+    return favoriteMusic ? this
+      .setState({ checked: true }) : this.setState({ checked: false });
   };
 
   render() {
