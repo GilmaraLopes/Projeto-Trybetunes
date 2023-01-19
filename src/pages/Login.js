@@ -2,6 +2,8 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import Loading from './Loading';
 import { createUser } from '../services/userAPI';
+import './Login.css';
+import logo from '../images/logo.png';
 
 export default class Login extends Component {
   state = {
@@ -32,29 +34,33 @@ export default class Login extends Component {
       return <Loading />;
     }
     return (
+      <div className="box1">
+        <div className="form-container-login">
+          <img src={ logo } hover="" alt="logo" width="187.19px" height="104.89px" />
+          <form className="painel">
+            {/* <div data-testid="page-login" /> */}
+            <input
+              placeholder="Qual o seu nome?"
+              className="input1"
+              type="text "
+              name="nome"
+              value={ nome }
+              data-testid="login-name-input"
+              onChange={ this.handleChange }
+            />
+            <button
+              className="botao1"
+              type="button"
+              onClick={ this.enableBtn }
+              data-testid="login-submit-button"
+              disabled={ isButtonDisable }
+            >
+              Entrar
 
-      <form>
-        <div data-testid="page-login" />
-        <label htmlFor="login-usuario">
-          Nome:
-          <input
-            type="text "
-            name="nome"
-            value={ nome }
-            data-testid="login-name-input"
-            onChange={ this.handleChange }
-          />
-          <button
-            type="button"
-            onClick={ this.enableBtn }
-            data-testid="login-submit-button"
-            disabled={ isButtonDisable }
-          >
-            Entrar
-
-          </button>
-        </label>
-      </form>
+            </button>
+          </form>
+        </div>
+      </div>
     );
   }
 }
